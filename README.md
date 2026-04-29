@@ -1,76 +1,144 @@
-# linux-shell-implementation
+# 🐧 Linux Shell Implementation
 
 C-based Linux shell supporting built-in commands, external execution, background jobs, I/O redirection, and command history.
+---
 
+## ✨ Overview
 
+This project implements a mini Linux shell from scratch, simulating how real shells (like Bash) work internally.
 
-\# Linux Shell Implementation
+It handles:
 
+* Command parsing
+* Process creation
+* Environment variables
+* Background execution
+* File redirection
 
+---
 
-A simple Linux shell implemented in C for an Operating Systems course project.  
+## 🚀 Features
 
-This project demonstrates basic shell behavior, process creation, command execution, I/O redirection, background process management, and command history.
+### 🖥️ Shell Behavior
 
+* Custom prompt:
 
+  ```
+  user@hostname:/path$
+  ```
+* Continuous command loop
+* Exit with `exit`
 
-\## Features
+---
 
+### ⚙️ Built-in Commands
 
+* `cd` – change directory
+* `pwd` – print current directory
+* `export` – set environment variables
+* `history` – show command history
+* `sbg` – list background processes
 
-\- Custom shell prompt showing username, hostname, and current working directory
+---
 
-\- Built-in commands:
+### 🔧 System Features
 
-&#x20; - `cd`
+* Execute external commands (`ls`, `cat`, etc.)
+* Background execution using `&`
+* Output redirection:
 
-&#x20; - `pwd`
+  * `>` overwrite
+  * `>>` append
+* Environment variable expansion (`$HOME`, `$PATH`)
+* Command history (↑ ↓ navigation via readline)
 
-&#x20; - `export`
+---
 
-&#x20; - `history`
+## 🧠 System Design
 
-&#x20; - `sbg`
+### Process Execution
 
-&#x20; - `exit`
+* Uses `fork()` to create child process
+* Uses `execvp()` to execute commands
+* Uses `waitpid()` to handle synchronization
 
-\- External command execution using `fork()` and `execvp()`
+### Background Jobs
 
-\- Background execution using `\&`
+* Stores PID + command
+* Uses `WNOHANG` to detect finished processes
 
-\- Background process tracking with `sbg`
+### I/O Redirection
 
-\- Output redirection:
+* Uses `open()` + `dup2()` to redirect stdout
 
-&#x20; - `>` overwrite output file
+### Command Parsing
 
-&#x20; - `>>` append to output file
+* Tokenized using `strtok`
+* Supports:
 
-\- Command history support using GNU Readline
+  * arguments
+  * background `&`
+  * redirection `>` / `>>`
 
-\- Environment variable expansion, such as `$HOME` or `$PATH`
+---
 
+## 🛠️ Tech Stack
 
+* C
+* Linux / Unix system calls
+* GNU Readline
+* Git
 
-\## Technologies Used
+---
 
-
-
-\- C
-
-\- Linux / Unix system calls
-
-\- GNU Readline
-
-\- Git
-
-
-
-\## Build
-
-
+## 📦 Build
 
 ```bash
-
 gcc linux-shell-implementation.c -o shell -lreadline
+```
 
+---
+
+## ▶️ Demo
+
+```bash
+$ ./shell
+user@host:~$ pwd
+/home/user
+
+user@host:~$ echo $HOME
+/home/user
+
+user@host:~$ sleep 5 &
+[Process running in background with PID 1234]
+
+user@host:~$ sbg
+Background processes:
+[1] PID: 1234, Command: sleep
+```
+
+---
+
+## 📁 Project Structure
+
+```
+.
+├── linux-shell-implementation.c
+├── README.md
+└── .gitignore
+```
+
+---
+
+## 🎯 What I Learned
+
+* How a shell works internally
+* Process management in Unix
+* System calls and file descriptors
+* Command parsing and execution flow
+
+---
+
+## 📌 Notes
+
+This project was developed as part of an Operating Systems course, focusing on understanding how Unix shells are implemented.
